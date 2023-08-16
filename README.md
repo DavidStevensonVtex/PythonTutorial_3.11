@@ -350,3 +350,35 @@ else:
 There can be zero or more elif parts, and the else part is optional. The keyword ‘elif’ is short for ‘else if’.
 
 ### 4.2. for Statements
+
+```
+# Measure some strings:
+words = [ 'cat', 'window', 'defenestrate' ]
+for w in words:
+    print(w, len(w))
+
+# cat 3
+# window 6
+# defenestrate 12
+```
+
+```
+# Create a sample collection
+users = {'Hans': 'active', 'Éléonore': 'inactive', '景太郎': 'active'}
+
+# Strategy: Iterate over a copy
+for user, status in users.copy().items():
+    if status == 'inactive':
+        del users[user]
+print("users: ", users)
+
+# Strategy: Create a new collection
+active_users = {}
+for user, status in users.items():
+    if status == 'active':
+        active_users[user] = status
+print("active_users: ", active_users)
+
+# users:  {'Hans': 'active', '景太郎': 'active'}
+# active_users:  {'Hans': 'active', '景太郎': 'active'}
+```
