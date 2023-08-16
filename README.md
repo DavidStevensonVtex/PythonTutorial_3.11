@@ -427,3 +427,35 @@ range(0, 10)
 >>> sum(range(4))  # 0 + 1 + 2 + 3
 6
 ```
+
+### 4.4. break and continue Statements, and else Clauses on Loops
+
+* The break statement breaks out of the innermost enclosing for or while loop.
+
+* A for or while loop can include an else clause.
+
+* In a for loop, the else clause is executed after the loop reaches its final iteration.
+
+* In a while loop, it’s executed after the loop’s condition becomes false.
+
+* In either kind of loop, the else clause is not executed if the loop was terminated by a break.
+
+```
+for n in range(2, 10):
+    for x in range(2, n):
+        if n % x == 0:
+            print(n, 'equals', x, '*', n//x)
+            break 
+    else:
+        # loop fell through without finding a factor
+        print(n, 'is a prime number')
+
+# 2 is a prime number
+# 3 is a prime number
+# 4 equals 2 * 2
+# 5 is a prime number
+# 6 equals 2 * 3
+# 7 is a prime number
+# 8 equals 2 * 4
+# 9 equals 3 * 3
+```
