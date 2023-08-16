@@ -662,11 +662,11 @@ print(f100)
 # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 ```
 
-4.8. More on Defining Functions
+### 4.8. More on Defining Functions
 
 It is also possible to define functions with a variable number of arguments. There are three forms, which can be combined.
 
-4.8.1. Default Argument Values
+#### 4.8.1. Default Argument Values
 
 ```
 def ask_ok(prompt, retries=4, reminder='Please try again!'):
@@ -734,3 +734,99 @@ print(f(3))
 # [2]
 # [3]
 ```
+
+#### 4.8.2. Keyword Arguments
+
+Functions can also be called using keyword arguments of the form kwarg=value. For instance, the following function:
+
+```
+def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
+    print("-- This parrot wouldn't", action, end=' ')
+    print("if you put", voltage, "volts through it.")
+    print("-- Lovely plumage, the", type)
+    print("-- It's", state, "!")
+    print()
+
+parrot(1000)                                          # 1 positional argument
+parrot(voltage=1000)                                  # 1 keyword argument
+parrot(voltage=1000000, action='VOOOOOM')             # 2 keyword arguments
+parrot(action='VOOOOOM', voltage=1000000)             # 2 keyword arguments
+parrot('a million', 'bereft of life', 'jump')         # 3 positional arguments
+parrot('a thousand', state='pushing up the daisies')  # 1 positional, 1 keyword
+
+# -- This parrot wouldn't voom if you put 1000 volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's a stiff !
+
+# -- This parrot wouldn't voom if you put 1000 volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's a stiff !
+
+# -- This parrot wouldn't VOOOOOM if you put 1000000 volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's a stiff !
+
+# -- This parrot wouldn't VOOOOOM if you put 1000000 volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's a stiff !
+
+# -- This parrot wouldn't jump if you put a million volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's bereft of life !
+
+# -- This parrot wouldn't voom if you put a thousand volts through it.
+# -- Lovely plumage, the Norwegian Blue
+# -- It's pushing up the daisies !
+```
+
+
+but all the following calls would be invalid:
+
+* parrot()                     # required argument missing
+* parrot(voltage=5.0, 'dead')  # non-keyword argument after a keyword argument
+* parrot(110, voltage=220)     # duplicate value for the same argument
+* parrot(actor='John Cleese')  # unknown keyword argument
+
+Duplicate keyword arguments
+
+```
+def function(a):
+    pass 
+
+function(0, a=0)
+
+# Traceback (most recent call last):
+#   File "D:\drs\Python\PythonTutorial_3.11\004_ControlFlow\018_multiple_keyword_arguments.py", line 4, in <module>
+#     function(0, a=0)
+# TypeError: function() got multiple values for argument 'a'
+```
+
+When a final formal parameter of the form **name is present, it receives a dictionary (see Mapping Types — dict) containing all keyword arguments except for those corresponding to a formal parameter. This may be combined with a formal parameter of the form *name (described in the next subsection) which receives a tuple containing the positional arguments beyond the formal parameter list. (*name must occur before **name.) For example, if we define a function like this:
+
+```
+def cheeseshop(kind, *arguments, **keywords):
+    print("-- Do you have any", kind, "?")
+    print("-- I'm sorry, we're all out of", kind)
+    for arg in arguments:
+        print(arg)
+    print("-" * 40)
+    for kw in keywords:
+        print(kw, ":", keywords[kw])
+
+cheeseshop("Limburger", "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           shopkeeper="Michael Palin",
+           client="John Cleese",
+           sketch="Cheese Shop Sketch")
+
+# -- Do you have any Limburger ?
+# -- I'm sorry, we're all out of Limburger
+# It's very runny, sir.
+# It's really very, VERY runny, sir.      
+# ----------------------------------------
+# shopkeeper : Michael Palin
+# client : John Cleese
+# sketch : Cheese Shop Sketch
+```
+
+Note that the order in which the keyword arguments are printed is guaranteed to match the order in which they were provided in the function call.
