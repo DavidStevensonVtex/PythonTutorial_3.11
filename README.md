@@ -459,3 +459,46 @@ for n in range(2, 10):
 # 8 equals 2 * 4
 # 9 equals 3 * 3
 ```
+
+```
+for num in range(2,10):
+    if num % 2 == 0:
+        print("Found an even number", num)
+        continue
+    print("Found an odd number", num)
+
+# Found an even number 2
+# Found an odd number 3
+# Found an even number 4
+# Found an odd number 5
+# Found an even number 6
+# Found an odd number 7
+# Found an even number 8
+# Found an odd number 9
+```
+
+### 4.5. pass Statements¶
+
+The __pass__ statement does nothing. It can be used when a statement is 
+required syntactically but the program requires no action. 
+
+```
+>>> while True:
+...     pass            # Busy-wait for keyboard interrupt (Ctrl+C)
+```
+
+This is commonly used for creating minimal classes:
+
+```
+>>> class MyEmptyClass:
+...     pass
+... 
+```
+
+Another place pass can be used is as a place-holder for a function or conditional body when you are working on new code.
+
+```
+>>> def initlog(*args):
+...     pass   # Remember to implement this!
+... 
+```
