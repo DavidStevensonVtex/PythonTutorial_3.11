@@ -348,3 +348,5 @@ else:
 ```
 
 There can be zero or more elif parts, and the else part is optional. The keyword ‘elif’ is short for ‘else if’.
+
+### 4.2. for Statements
