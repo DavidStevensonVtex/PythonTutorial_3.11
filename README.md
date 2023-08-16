@@ -502,3 +502,132 @@ Another place pass can be used is as a place-holder for a function or conditiona
 ...     pass   # Remember to implement this!
 ... 
 ```
+
+### 4.6. match Statements
+
+A match statement takes an expression and compares its value to successive patterns given as one or more case blocks. This is superficially similar to a switch statement in C, Java or JavaScript (and many other languages), but it’s more similar to pattern matching in languages like Rust or Haskell. 
+
+```
+def http_error(status):
+    match status:
+        case 400:
+            return "Bad request"
+        case 404:
+            return "Not found"
+        case 418:
+            return "I'm a teapot"
+        case _:
+            return "Something's wrong with the Internet"
+
+print(http_error(500))
+
+# Something's wrong with the Internet
+```
+
+You can combine several literals in a single pattern using | (“or”):
+
+```
+case 401 | 403 | 404:
+    return "Not allowed"
+```
+
+Patterns can look like unpacking assignments, and can be used to bind variables:
+
+```
+point = (0,5)
+
+# point is an (x,y) tuple
+match point:
+    case (0, 0):
+        print("Origin")
+    case (0, y):
+        print(f"Y={y}")
+    case (x, 0):
+        print(f"X={x}")
+    case (x, y):
+        print(f"X={x}, Y={y}")
+    case _:
+        raise ValueError("Not a point")
+
+# Y=5
+```
+
+```
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def where_is(point):
+        match point:
+            case Point(x=0, y=0):
+                print("Origin")
+            case Point(x=0, y=y):
+                print(f"Y={y}")
+            case Point(x=x, y=0):
+                print(f"X={x}")
+            case Point():
+                print("Somewhere else")
+            case _:
+                print("Not a point")
+
+p = Point(0,5)
+p.where_is()
+# Y=5
+```
+
+```
+class Point:
+    # __match_args__ allows to define a default order for arguments to be matched in when a custom class is used in a case
+    __match_args__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+points = Point(0,5)
+
+match points:
+    case []:
+        print("No points")
+    case [Point(0, 0)]:
+        print("The origin")
+    case [Point(x, y)]:
+        print(f"Single point {x}, {y}")
+    case [Point(0, y1), Point(0, y2)]:
+        print(f"Two on the Y axis at {y1}, {y2}")
+    case _:
+        print("Something else")
+```
+
+
+We can add an if clause to a pattern, known as a “guard”. If the guard is false, match goes on to try the next case block. Note that value capture happens before the guard is evaluated:
+
+```
+match point:
+    case Point(x, y) if x == y:
+        print(f"Y=X at {x}")
+    case Point(x, y):
+        print(f"Not on the diagonal")
+```
+
+Patterns may use named constants. These must be dotted names to prevent them from being interpreted as capture variable:
+
+```
+from enum import Enum
+class Color(Enum):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
+color = Color(input("Enter your choice of 'red', 'blue' or 'green': "))
+
+match color:
+    case Color.RED:
+        print("I see red!")
+    case Color.GREEN:
+        print("Grass is green")
+    case Color.BLUE:
+        print("I'm feeling the blues :(")
+```
+
+[PEP 636 – Structural Pattern Matching: Tutorial](https://peps.python.org/pep-0636/)
