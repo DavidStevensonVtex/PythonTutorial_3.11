@@ -297,3 +297,32 @@ Nesting lists
 >>> x[0][1]
 'b'
 ```
+
+### 3.2. First Steps Towards Programming
+
+```
+>>> # Fibonacci series:
+>>> # the sum of two elements defines the next
+>>> a, b = 0, 1
+>>> while a < 10:
+...     print(a)
+...     a, b = b, a+b
+... 
+0
+1
+1
+2
+3
+5
+8
+```
+
+* The first line contains a multiple assignment
+* The while loop executes as long as the condition (here: a < 10) remains true.
+* The body of the loop is indented: indentation is Python’s way of grouping statements.
+
+```
+>>> i = 256*256 
+>>> print('The value of i is', i)
+The value of i is 65536
+```
