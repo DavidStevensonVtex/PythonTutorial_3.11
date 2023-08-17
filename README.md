@@ -877,7 +877,7 @@ def combined_example(pos_only, /, standard, *, kwd_only):
 
 ```
 
-4.8.3.5. Recap
+##### 4.8.3.5. Recap
 The use case will determine which parameters to use in the function definition:
 
 ```
@@ -891,3 +891,7 @@ As guidance:
 * Use keyword-only when names have meaning and the function definition is more understandable by being explicit with names or you want to prevent users relying on the position of the argument being passed.
 
 * For an API, use positional-only to prevent breaking API changes if the parameter’s name is modified in the future.
+
+#### 4.8.4. Arbitrary Argument Lists
+
+Finally, the least frequently used option is to specify that a function can be called with an arbitrary number of arguments. These arguments will be wrapped up in a tuple (see [Tuples and Sequences](https://docs.python.org/3/tutorial/datastructures.html#tut-tuples)). Before the variable number of arguments, zero or more normal arguments may occur.
