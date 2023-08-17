@@ -830,3 +830,49 @@ cheeseshop("Limburger", "It's very runny, sir.",
 ```
 
 Note that the order in which the keyword arguments are printed is guaranteed to match the order in which they were provided in the function call.
+
+#### 4.8.3. Special parameters
+
+A function definition may look like:
+
+```
+def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+      -----------    ----------     ----------
+        |             |                  |
+        |        Positional or keyword   |
+        |                                - Keyword only
+         -- Positional only
+```
+
+where / and * are optional. If used, these symbols indicate the kind of parameter by how the arguments may be passed to the function: positional-only, positional-or-keyword, and keyword-only. Keyword parameters are also referred to as named parameters.
+
+##### 4.8.3.1. Positional-or-Keyword Arguments
+
+If / and * are not present in the function definition, arguments may be passed to a function by position or by keyword.
+
+##### 4.8.3.2. Positional-Only Parameters
+
+Looking at this in a bit more detail, it is possible to mark certain parameters as positional-only. If positional-only, the parameters’ order matters, and the parameters cannot be passed by keyword. Positional-only parameters are placed before a / (forward-slash). The / is used to logically separate the positional-only parameters from the rest of the parameters. If there is no / in the function definition, there are no positional-only parameters.
+
+Parameters following the / may be positional-or-keyword or keyword-only.
+
+##### 4.8.3.3. Keyword-Only Arguments
+
+To mark parameters as keyword-only, indicating the parameters must be passed by keyword argument, place an * in the arguments list just before the first keyword-only parameter.
+
+##### 4.8.3.4. Function Examples
+
+```
+def standard_arg(arg):
+    print(arg)
+
+def pos_only_arg(arg, /):
+    print(arg)
+
+def kwd_only_arg(*, arg):
+    print(arg)
+
+def combined_example(pos_only, /, standard, *, kwd_only):
+    print(pos_only, standard, kwd_only)
+
+```
