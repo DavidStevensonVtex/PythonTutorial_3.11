@@ -895,3 +895,32 @@ As guidance:
 #### 4.8.4. Arbitrary Argument Lists
 
 Finally, the least frequently used option is to specify that a function can be called with an arbitrary number of arguments. These arguments will be wrapped up in a tuple (see [Tuples and Sequences](https://docs.python.org/3/tutorial/datastructures.html#tut-tuples)). Before the variable number of arguments, zero or more normal arguments may occur.
+
+```
+def concat(*args, sep="/"):
+    return sep.join(args)
+
+
+print('concat("earth", "mars", "venus")')
+print(concat("earth", "mars", "venus"))
+
+print('\nconcat("earth", "mars", "venus", sep=".")')
+print(concat("earth", "mars", "venus", sep="."))
+```
+
+#### 4.8.5. Unpacking Argument Lists
+
+```
+print("list(range(3,6))")
+print(list(range(3, 6)))
+
+args = [3, 6]
+print("args = [3, 6]")
+print("list(range(*args))")
+print(list(range(*args)))
+
+# [3, 4, 5]
+# args = [3, 6]
+# list(range(*args))
+# [3, 4, 5]
+```
