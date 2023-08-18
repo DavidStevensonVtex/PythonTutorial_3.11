@@ -1322,3 +1322,70 @@ phone_numbers = dict(sape=4139, guido=4127, jack=4098)
 print(phone_numbers)
 # {"sape": 4139, "guido": 4127, "jack": 4098}
 ```
+
+### 5.6. Looping Techniques
+
+Dictionary Looping Technique
+
+```
+knights = {"gallahad": "the pure", "robin": "the brave"}
+for k, v in knights.items():
+    print(k, v)
+
+# gallahad the pure
+# robin the brave
+```
+
+Sequence Looping Technique
+
+```
+for i, v in enumerate(["tic", "tac", "toe"]):
+    print(i, v)
+
+# 0 tic
+# 1 tac
+# 2 toe
+```
+
+To loop over a sequence in reverse, first specify the sequence in a forward direction and then call the reversed() function.
+
+```
+for i in reversed(range(1, 10, 2)):
+    print(i)
+
+# 9
+# 7
+# 5
+# 3
+# 1
+```
+
+To loop over a sequence in sorted order, use the sorted() function which returns a new sorted list while leaving the source unaltered.
+
+```
+basket = ["apple", "orange", "apple", "pear", "orange", "banana"]
+for i in sorted(basket):
+    print(i)
+
+# apple
+# apple
+# banana
+# orange
+# orange
+# pear
+```
+
+It is sometimes tempting to change a list while you are looping over it; however, it is often simpler and safer to create a new list instead.
+
+```
+import math
+
+raw_data = [56.2, float("NaN"), 51.7, 55.3, 52.5, float("NaN"), 47.8]
+filtered_data = []
+for value in raw_data:
+    if not math.isnan(value):
+        filtered_data.append(value)
+
+print(filtered_data)
+# [56.2, 51.7, 55.3, 52.5, 47.8]
+```
