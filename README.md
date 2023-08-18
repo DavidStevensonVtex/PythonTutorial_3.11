@@ -1005,7 +1005,7 @@ it promotes a very readable and eye-pleasing coding style.
 
 * Likewise, don’t use non-ASCII characters in identifiers if there is only the slightest chance people speaking a different language will read or maintain the code.
 
-## Data Structures
+## 5. Data Structures
 
 ### 5.1. More on Lists
 
@@ -1021,3 +1021,47 @@ it promotes a very readable and eye-pleasing coding style.
 * list.reverse()
 * list.copy()
 
+```
+fruits = ["orange", "apple", "pear", "banana", "kiwi", "apple", "banana"]
+print(fruits.count("apple"))
+# 2
+print(fruits.count("tangerine"))
+# 0
+print(fruits.index("banana"))
+# 3
+print(fruits.index("banana", 4))  # Find next banana starting at position 4
+# 6
+fruits.reverse()
+print(fruits)
+# ["banana", "apple", "kiwi", "banana", "pear", "apple", "orange"]
+fruits.append("grape")
+print(fruits)
+# ["banana", "apple", "kiwi", "banana", "pear", "apple", "orange", "grape"]
+fruits.sort()
+print(fruits)
+# ["apple", "apple", "banana", "banana", "grape", "kiwi", "orange", "pear"]
+print(fruits.pop())
+# 'pear'
+```
+
+#### 5.1.1. Using Lists as Stacks
+
+The list methods make it very easy to use a list as a stack, where the last element added is the first element retrieved (“last-in, first-out”). To add an item to the top of the stack, use append(). To retrieve an item from the top of the stack, use pop() without an explicit index. For example:
+
+```
+stack = [3, 4, 5]
+stack.append(6)
+stack.append(7)
+print(stack)
+# [3, 4, 5, 6, 7]
+print(stack.pop())
+# 7
+print(stack)
+# [3, 4, 5, 6]
+print(stack.pop())
+# 6
+print(stack.pop())
+# 5
+print(stack)
+# [3, 4]
+```
