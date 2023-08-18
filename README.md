@@ -1004,3 +1004,20 @@ it promotes a very readable and eye-pleasing coding style.
 * Don’t use fancy encodings if your code is meant to be used in international environments. Python’s default, UTF-8, or even plain ASCII work best in any case.
 
 * Likewise, don’t use non-ASCII characters in identifiers if there is only the slightest chance people speaking a different language will read or maintain the code.
+
+## Data Structures
+
+### 5.1. More on Lists
+
+* list.append(_x_)
+* list.extend(_iterable_)
+* list.insert(_i, x_)
+* list.remove(x)
+* list.pop(_[index]_)
+* list.clear()
+* list.index(_x, [, start [, end]]_)
+* list.count(x)
+* list.sort(_*, key=NOne, reverse=False_)
+* list.reverse()
+* list.copy()
+
