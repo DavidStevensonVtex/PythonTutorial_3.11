@@ -1114,3 +1114,31 @@ mypi = [str(round(pi, i)) for i in range(1, 6)]
 print(mypi)
 # ['3.1', '3.14', '3.142', '3.1416', '3.14159']
 ```
+
+#### 5.1.4. Nested List Comprehensions
+
+The initial expression in a list comprehension can be any arbitrary expression, including another list comprehension.
+
+```
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+]
+
+new_matrix = [[row[i] for row in matrix] for i in range(4)]
+print(new_matrix)
+# [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+
+
+new_matrix = list(zip(*matrix))
+print(matrix)
+# [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+print(*matrix)
+# [1, 2, 3, 4] [5, 6, 7, 8] [9, 10, 11, 12]
+print(new_matrix)
+# [(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]
+```
+
+See [Unpacking Argument Lists](https://docs.python.org/3/tutorial/controlflow.html#tut-unpacking-arguments) for details on the asterisk in this line.
+
