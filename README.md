@@ -1168,3 +1168,57 @@ del a
 ```
 
 Referencing the name a hereafter is an error (at least until another value is assigned to it). We’ll find other uses for [del](https://docs.python.org/3/reference/simple_stmts.html#del) later.
+
+### 5.3. Tuples and Sequences¶
+
+We saw that lists and strings have many common properties, such as indexing and slicing operations. They are two examples of sequence data types (see [Sequence Types — list, tuple, range](https://docs.python.org/3/library/stdtypes.html#typesseq)).
+
+A tuple consists of a number of values separated by commas, for instance:
+
+```
+t = 12345, 54321, "hello!"
+print(t[0])
+# 12345
+print(t)
+# (12345, 54321, "hello!")
+# Tuples may be nested:
+u = t, (1, 2, 3, 4, 5)
+print(u)
+# ((12345, 54321, "hello!"), (1, 2, 3, 4, 5))
+# Tuples are immutable:
+try:
+    t[0] = 88888
+except TypeError:
+    print("TypeError: 'tuple' object does not support item assignment")
+
+# but they can contain mutable objects:
+v = ([1, 2, 3], [3, 2, 1])
+print(v)
+([1, 2, 3], [3, 2, 1])
+```
+
+Though tuples may seem similar to lists, they are often used in different situations and for different purposes. Tuples are immutable, and usually contain a heterogeneous sequence of elements that are accessed via unpacking (see later in this section) or indexing (or even by attribute in the case of namedtuples). Lists are mutable, and their elements are usually homogeneous and are accessed by iterating over the list.
+
+A special problem is the construction of tuples containing 0 or 1 items: the syntax has some extra quirks to accommodate these. Empty tuples are constructed by an empty pair of parentheses; a tuple with one item is constructed by following a value with a comma (it is not sufficient to enclose a single value in parentheses). Ugly, but effective. For example:
+
+```
+empty = ()
+singleton = ("hello",)  # <-- note trailing comma
+print(len(empty))
+# 0
+print(len(singleton))
+# 1
+print(singleton)
+# ("hello",)
+```
+
+Unpacking a tuple
+
+```
+# tuple packing
+t = 12345, 54321, "hello!"
+# tuple unpacking
+x, y, z = t
+print("x: ", x, "y: ", y, "z: ", z)
+# x:  12345 y:  54321 z:  hello!
+```
