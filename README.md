@@ -1717,3 +1717,9 @@ You can also write relative imports, with the from module import name form of im
 ```
 
 Note that relative imports are based on the name of the current module. Since the name of the main module is always "\_\_main\_\_", modules intended for use as the main module of a Python application must always use absolute imports.
+
+#### 6.4.3. Packages in Multiple Directories
+
+Packages support one more special attribute, \_\_path\_\_. This is initialized to be a list containing the name of the directory holding the package’s\_\_init\_\_.py before the code in that file is executed. This variable can be modified; doing so affects future searches for modules and subpackages contained in the package.
+
+While this feature is not often needed, it can be used to extend the set of modules found in a package.
