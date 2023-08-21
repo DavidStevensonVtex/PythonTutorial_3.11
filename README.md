@@ -1664,3 +1664,42 @@ echofilter(input, output, delay=0.7, atten=4)
 Note that when using from package import item, the item can be either a submodule (or subpackage) of the package, or some other name defined in the package, like a function, class or variable. The import statement first tests whether the item is defined in the package; if not, it assumes it is a module and attempts to load it. If it fails to find it, an ImportError exception is raised.
 
 Contrarily, when using syntax like import item.subitem.subsubitem, each item except for the last must be a package; the last item can be a module or a package but can’t be a class or function or variable defined in the previous item.
+
+#### 6.4.1. Importing * From a Package
+
+Now what happens when the user writes from sound.effects import *? Ideally, one would hope that this somehow goes out to the filesystem, finds which submodules are present in the package, and imports them all. This could take a long time and importing sub-modules might have unwanted side-effects that should only happen when the sub-module is explicitly imported.
+
+The only solution is for the package author to provide an explicit index of the package. The import statement uses the following convention: if a package’s \_\_init\_\_.py code defines a list named \_\_all\_\_, it is taken to be the list of module names that should be imported when from package import * is encountered. It is up to the package author to keep this list up-to-date when a new version of the package is released. Package authors may also decide not to support it, if they don’t see a use for importing * from their package. For example, the file sound/effects/\_\_init\_\_.py could contain the following code:
+
+```
+__all__ = ["echo", "surround", "reverse"]
+```
+
+This would mean that from sound.effects import * would import the three named submodules of the sound.effects package.
+
+Be aware that submodules might become shadowed by locally defined names. For example, if you added a reverse function to the sound/effects/\_\_init\_\_.py file, the from sound.effects import * would only import the two submodules echo and surround, but not the reverse submodule, because it is shadowed by the locally defined reverse function:
+
+```
+__all__ = [
+    "echo",      # refers to the 'echo.py' file
+    "surround",  # refers to the 'surround.py' file
+    "reverse",   # !!! refers to the 'reverse' function now !!!
+]
+
+def reverse(msg: str):  # <-- this name shadows the 'reverse.py' submodule
+    return msg[::-1]    #     in the case of a 'from sound.effects import *'
+```
+
+If \_\_all\_\_ is not defined, the statement from sound.effects import * does not import all submodules from the package sound.effects into the current namespace; it only ensures that the package sound.effects has been imported (possibly running any initialization code in \_\_init\_\_.py) and then imports whatever names are defined in the package. This includes any names defined (and submodules explicitly loaded) by \_\_init\_\_.py. It also includes any submodules of the package that were explicitly loaded by previous import statements. Consider this code:
+
+```
+import sound.effects.echo
+import sound.effects.surround
+from sound.effects import *
+```
+
+In this example, the echo and surround modules are imported in the current namespace because they are defined in the sound.effects package when the from...import statement is executed. (This also works when __all__ is defined.)
+
+Although certain modules are designed to export only names that follow certain patterns when you use import *, it is still considered bad practice in production code.
+
+Remember, there is nothing wrong with using from package import specific_submodule! In fact, this is the recommended notation unless the importing module needs to use submodules with the same name from different packages.
