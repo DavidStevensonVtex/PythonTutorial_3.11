@@ -1478,7 +1478,7 @@ There is even a variant to import all names that a module defines:
 ```
 from fibo import *
 fib(500)
-``
+```
 
 This imports all names except those beginning with an underscore (_). In most cases Python programmers do not use this facility since it introduces an unknown set of names into the interpreter, possibly hiding some things you have already defined.
 
@@ -1499,3 +1499,37 @@ It can also be used when utilising from with similar effects:
 from fibo import fib as fibonacci
 fibonacci(500)
 ```
+
+#### 6.1.1. Executing modules as scripts
+
+When you run a Python module with
+
+```
+python fibo.py &lt;arguments&gt;
+```
+
+the code in the module will be executed, just as if you imported it, but with the __name__ set to "__main__". That means that by adding this code at the end of your module:
+
+```
+if __name__ == "__main__":
+    import sys
+    fib(int(sys.argv[1]))
+```
+
+
+you can make the file usable as a script as well as an importable module, because the code that parses the command line only runs if the module is executed as the “main” file:
+
+```
+$ python fibo.py 500
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 
+```
+
+If the module is imported, the code is not run:
+
+```
+$ python
+>>> import fibo
+>>> 
+```
+
+This is often used either to provide a convenient user interface to a module, or for testing purposes (running the module as a script executes a test suite).
