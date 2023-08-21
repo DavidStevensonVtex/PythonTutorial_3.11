@@ -1533,3 +1533,17 @@ $ python
 ```
 
 This is often used either to provide a convenient user interface to a module, or for testing purposes (running the module as a script executes a test suite).
+
+#### 6.1.2. The Module Search Path
+
+When a module named spam is imported, the interpreter first searches for a built-in module with that name. These module names are listed in [sys.builtin_module_names](https://docs.python.org/3/library/sys.html#sys.builtin_module_names). If not found, it then searches for a file named spam.py in a list of directories given by the variable [sys.path](https://docs.python.org/3/library/sys.html#sys.path). [sys.path](https://docs.python.org/3/library/sys.html#sys.path) is initialized from these locations:
+
+* The directory containing the input script (or the current directory when no file is specified).
+
+* [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH) (a list of directory names, with the same syntax as the shell variable PATH).
+
+* The installation-dependent default (by convention including a site-packages directory, handled by the [site](https://docs.python.org/3/library/site.html#module-site) module).
+
+More details are at [The initialization of the sys.path module search path](https://docs.python.org/3/library/sys_path_init.html#sys-path-init).
+
+After initialization, Python programs can modify [sys.path](https://docs.python.org/3/library/sys.html#sys.path). The directory containing the script being run is placed at the beginning of the search path, ahead of the standard library path. This means that scripts in that directory will be loaded instead of modules of the same name in the library directory. This is an error unless the replacement is intended. See section [Standard Modules](https://docs.python.org/3/tutorial/modules.html#tut-standardmodules) for more information.
