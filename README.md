@@ -1590,3 +1590,26 @@ The variable sys.path is a list of strings that determines the interpreter’s s
 import sys
 sys.path.append('/ufs/guido/lib/python')
 ```
+
+### 6.3. The [dir()](https://docs.python.org/3/library/functions.html#dir) Function
+
+The built-in function dir() is used to find out which names a module defines. It returns a sorted list of strings:
+
+```
+import fibo, sys
+dir(fibo)
+dir(sys)
+```
+
+Without arguments, dir() lists the names you have defined currently:
+
+```
+a = [1, 2, 3, 4, 5]
+import fibo
+fib = fibo.fib
+dir()
+```
+
+Note that it lists all types of names: variables, modules, functions, etc.
+
+[dir()](https://docs.python.org/3/library/functions.html#dir) does not list the names of built-in functions and variables. If you want a list of those, they are defined in the standard module [builtins](https://docs.python.org/3/library/builtins.html#module-builtins):
