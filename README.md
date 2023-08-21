@@ -1565,3 +1565,28 @@ Some tips for experts:
 * The module [compileall](https://docs.python.org/3/library/compileall.html#module-compileall) can create .pyc files for all modules in a directory.
 
 * There is more detail on this process, including a flow chart of the decisions, in [PEP 3147](https://peps.python.org/pep-3147/).
+
+### 6.2 Standard Modules
+
+Python comes with a library of standard modules, described in a separate document, the Python Library Reference (“Library Reference” hereafter). Some modules are built into the interpreter; these provide access to operations that are not part of the core of the language but are nevertheless built in, either for efficiency or to provide access to operating system primitives such as system calls. The set of such modules is a configuration option which also depends on the underlying platform. For example, the [winreg](https://docs.python.org/3/library/winreg.html#module-winreg) module is only provided on Windows systems. One particular module deserves some attention: sys, which is built into every Python interpreter. The variables sys.ps1 and sys.ps2 define the strings used as primary and secondary prompts:
+
+```
+import sys
+sys.ps1
+'>>> '
+sys.ps2
+'... '
+sys.ps1 = 'C> '
+C> print('Yuck!')
+Yuck!
+C>
+```
+
+These two variables are only defined if the interpreter is in interactive mode.
+
+The variable sys.path is a list of strings that determines the interpreter’s search path for modules. It is initialized to a default path taken from the environment variable [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH), or from a built-in default if PYTHONPATH is not set. You can modify it using standard list operations:
+
+```
+import sys
+sys.path.append('/ufs/guido/lib/python')
+```
