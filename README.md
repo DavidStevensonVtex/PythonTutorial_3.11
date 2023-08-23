@@ -1903,3 +1903,40 @@ As an example, the following lines produce a tidily aligned set of columns givin
 ```
 
 For a complete overview of string formatting with [str.format()](https://docs.python.org/3/library/stdtypes.html#str.format), see [Format String Syntax](https://docs.python.org/3/library/string.html#formatstrings).
+
+#### 7.1.3. Manual String Formatting
+
+Here’s the same table of squares and cubes, formatted manually:
+
+```
+>>> for x in range(1, 11):
+...     print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+...     # Note use of 'end' on previous line
+...     print(repr(x*x*x).rjust(4))
+... 
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+```
+
+(Note that the one space between each column was added by the way [print()](https://docs.python.org/3/library/functions.html#print) works: it always adds spaces between its arguments.)
+
+The [str.rjust()](https://docs.python.org/3/library/stdtypes.html#str.rjust) method of string objects right-justifies a string in a field of a given width by padding it with spaces on the left. There are similar methods [str.ljust()](https://docs.python.org/3/library/stdtypes.html#str.ljust) and [str.center()](https://docs.python.org/3/library/stdtypes.html#str.center). These methods do not write anything, they just return a new string. If the input string is too long, they don’t truncate it, but return it unchanged; this will mess up your column lay-out but that’s usually better than the alternative, which would be lying about a value. (If you really want truncation you can always add a slice operation, as in x.ljust(n)[:n].)
+
+There is another method, [str.zfill()], which pads a numeric string on the left with zeros. It understands about plus and minus signs:
+
+```
+>>> '12'.zfill(5)
+'00012'
+>>> '-3.14'.zfill(7)
+'-003.14'
+>>> '3.14159265359'.zfill(5)
+'3.14159265359'
+```
