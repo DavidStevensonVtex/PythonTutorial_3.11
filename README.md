@@ -1723,3 +1723,66 @@ Note that relative imports are based on the name of the current module. Since th
 Packages support one more special attribute, \_\_path\_\_. This is initialized to be a list containing the name of the directory holding the package’s\_\_init\_\_.py before the code in that file is executed. This variable can be modified; doing so affects future searches for modules and subpackages contained in the package.
 
 While this feature is not often needed, it can be used to extend the set of modules found in a package.
+
+## 7. Input and Output
+
+### 7.1. Fancier Output Formatting
+
+```
+year = 2016
+event = "Referendum"
+print(f"Results of the {year} {event}")
+# Results of the 2016 Referendum
+```
+
+* The str.format() method of strings requires more manual effort. You’ll still use { and } to mark where a variable will be substituted and can provide detailed formatting directives, but you’ll also need to provide the information to be formatted.
+
+```
+yes_votes = 42_572_654
+no_votes = 43_132_495
+percentage = yes_votes / (yes_votes + no_votes)
+"{:-9} YES votes  {:2.2%}".format(yes_votes, percentage)
+```
+
+When you don’t need fancy output but just want a quick display of some variables for debugging purposes, you can convert any value to a string with the repr() or str() functions.
+
+The str() function is meant to return representations of values which are fairly human-readable, while repr() is meant to generate representations which can be read by the interpreter (or will force a SyntaxError if there is no equivalent syntax). For objects which don’t have a particular representation for human consumption, str() will return the same value as repr(). Many values, such as numbers or structures like lists and dictionaries, have the same representation using either function. Strings, in particular, have two distinct representations.
+
+```
+$ python 
+Python 3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> s = 'Hello, world.'
+>>> str(s)
+'Hello, world.'
+>>> 'Hello, world.'
+'Hello, world.'
+>>> repr(s)
+"'Hello, world.'"
+>>> "'Hello, world.'"
+"'Hello, world.'"
+>>> str(1/7)
+'0.14285714285714285'
+>>> '0.14285714285714285'
+'0.14285714285714285'
+>>> x = 10 * 3.25
+>>> y = 200 * 200
+>>> s = 'The value of x is ' + repr(x) + ', and y is ' + repr(y) + '...'
+>>> print(s)
+The value of x is 32.5, and y is 40000...
+>>> The value of x is 32.5, and y is 40000...
+  File "<stdin>", line 1
+    The value of x is 32.5, and y is 40000...
+        ^^^^^
+SyntaxError: invalid syntax
+>>> # The repr() of a string adds string quotes and backslashes:
+>>> hello = 'hello, world\n'
+>>> hellos = repr(hello)
+>>> print(hellos)
+'hello, world\n'
+>>> 'hello, world\n'
+'hello, world\n'
+>>> # The argument to repr() may be any Python object:
+>>> repr((x, y, ('spam', 'eggs')))
+"(32.5, 40000, ('spam', 'eggs'))"
+```
