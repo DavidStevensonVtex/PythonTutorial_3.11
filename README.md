@@ -2029,3 +2029,46 @@ f.read(1)                       # returns b'd'
 In text files (those opened without a b in the mode string), only seeks relative to the beginning of the file are allowed (the exception being seeking to the very file end with seek(0, 2)) and the only valid offset values are those returned from the f.tell(), or zero. Any other offset value produces undefined behaviour.
 
 File objects have some additional methods, such as [isatty()](https://docs.python.org/3/library/io.html#io.IOBase.isatty) and [truncate()](https://docs.python.org/3/library/io.html#io.IOBase.truncate) which are less frequently used; consult the Library Reference for a complete guide to file objects.
+
+#### 7.2.2. Saving structured data with json
+
+Strings can easily be written to and read from a file. Numbers take a bit more effort, since the read() method only returns strings, which will have to be passed to a function like int(), which takes a string like '123' and returns its numeric value 123. When you want to save more complex data types like nested lists and dictionaries, parsing and serializing by hand becomes complicated.
+
+Rather than having users constantly writing and debugging code to save complicated data types to files, Python allows you to use the popular data interchange format called [JSON (JavaScript Object Notation)](https://json.org/). The standard module called json can take Python data hierarchies, and convert them to string representations; this process is called serializing. Reconstructing the data from the string representation is called deserializing. Between serializing and deserializing, the string representing the object may have been stored in a file or data, or sent over a network connection to some distant machine.
+
+```
+Note: The JSON format is commonly used by modern applications to allow for data exchange. Many programmers are already familiar with it, which makes it a good choice for interoperability.
+```
+
+If you have an object x, you can view its JSON string representation with a simple line of code:
+
+```
+import json
+>>> x = [1, 'simple', 'list']
+>>> json.dumps(x)
+'[1, "simple", "list"]'
+```
+
+Another variant of the [dumps()](https://docs.python.org/3/library/json.html#json.dumps) function, called [dump()](https://docs.python.org/3/library/json.html#json.dump), simply serializes the object to a text file. So if f is a text file object opened for writing, we can do this:
+
+```
+json.dump(x, f)
+```
+
+To decode the object again, if f is a binary file or text file object which has been opened for reading:
+
+```
+x = json.load(f)
+```
+
+```
+Note: JSON files must be encoded in UTF-8. Use encoding="utf-8" when opening JSON file as a text file for both of reading and writing.
+```
+
+This simple serialization technique can handle lists and dictionaries, but serializing arbitrary class instances in JSON requires a bit of extra effort. The reference for the [json](https://docs.python.org/3/library/json.html#module-json) module contains an explanation of this.
+
+
+See also [pickle](https://docs.python.org/3/library/pickle.html#module-pickle) - the pickle module
+
+Contrary to [JSON](https://docs.python.org/3/tutorial/inputoutput.html#tut-json), pickle is a protocol which allows the serialization of arbitrarily complex Python objects. As such, it is specific to Python and cannot be used to communicate with applications written in other languages. It is also insecure by default: deserializing pickle data coming from an untrusted source can execute arbitrary code, if the data was crafted by a skilled attacker.
+
