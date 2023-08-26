@@ -2322,3 +2322,62 @@ Exception classes can be defined which do anything any other class can do, but a
 Most exceptions are defined with names that end in “Error”, similar to the naming of the standard exceptions.
 
 Many standard modules define their own exceptions to report errors that may occur in functions they define.
+
+### 8.7. Defining Clean-up Actions
+
+The try statement has another optional clause which is intended to define clean-up actions that must be executed under all circumstances. For example:
+
+```
+>>> try:
+...     raise KeyboardInterrupt
+... finally:
+...     print('Goodbye, world!')
+... 
+Goodbye, world!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+KeyboardInterrupt
+```
+
+If a finally clause is present, the finally clause will execute as the last task before the try statement completes. The finally clause runs whether or not the try statement produces an exception. 
+
+For example:
+
+```
+def bool_return():
+    try:
+        return True
+    finally:
+        return False
+```
+
+A more complicated example:
+
+```
+>>> def divide(x, y):
+...     try:
+...         result = x / y
+...     except ZeroDivisionError:
+...         print("division by zero!")
+...     else:
+...         print("result is", result)
+...     finally:
+...         print("executing finally clause")
+...
+>>> divide(2, 1)
+result is 2.0
+executing finally clause
+>>> divide(2, 0)
+division by zero!
+executing finally clause
+>>> divide("2", "1")
+executing finally clause
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 3, in divide
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+```
+
+As you can see, the [finally](https://docs.python.org/3/reference/compound_stmts.html#finally) clause is executed in any event. The [TypeError](https://docs.python.org/3/library/exceptions.html#TypeError) raised by dividing two strings is not handled by the except clause and therefore re-raised after the finally clause has been executed.
+
+In real world applications, the [finally](https://docs.python.org/3/reference/compound_stmts.html#finally) clause is useful for releasing external resources (such as files or network connections), regardless of whether the use of the resource was successful.
