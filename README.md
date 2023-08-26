@@ -2086,3 +2086,131 @@ Syntax errors, also known as parsing errors, are perhaps the most common kind of
 SyntaxError: invalid syntax
 ```
 
+### 8.2. Exceptions
+
+```
+>>> 10 * (1/0)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: division by zero
+>>> 4 + spam*3
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'spam' is not defined
+>>> '2' + 2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+```
+
+The last line of the error message indicates what happened. Exceptions come in different types, and the type is printed as part of the message: the types in the example are [ZeroDivisionError](https://docs.python.org/3/library/exceptions.html#ZeroDivisionError[), [NameError](https://docs.python.org/3/library/exceptions.html#NameError) and [TypeError](https://docs.python.org/3/library/exceptions.html#TypeError).
+
+[Built-in Exceptions](https://docs.python.org/3/library/exceptions.html#bltin-exceptions) lists the built-in exceptions and their meanings.
+
+### 8.3. Handling Exceptions
+
+Note that a user-generated interruption is signalled by raising the KeyboardInterrupt exception.
+
+```
+>>> while True:               
+...     try:
+...         x = int(input("Please enter a number: "))
+...         break
+...     except ValueError:
+...         print("Oops!  That was no valid number.  Try again...")
+... 
+Please enter a number: abc
+Oops!  That was no valid number.  Try again...
+Please enter a number: Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+KeyboardInterrupt
+```
+
+The [try](https://docs.python.org/3/reference/compound_stmts.html#try) statement 
+
+* First, the try clause (the statement(s) between the try and except keywords) is executed.
+
+* If no exception occurs, the except clause is skipped and execution of the try statement is finished.
+
+* If an exception occurs during execution of the try clause, the rest of the clause is skipped. Then, if its type matches the exception named after the except keyword, the except clause is executed, and then execution continues after the try/except block.
+
+* If an exception occurs which does not match the exception named in the except clause, it is passed on to outer try statements; if no handler is found, it is an unhandled exception and execution stops with a message as shown above.
+
+A try statement may have more than one except clause, to specify handlers for different exceptions. At most one handler will be executed. Handlers only handle exceptions that occur in the corresponding try clause, not in other handlers of the same try statement. An except clause may name multiple exceptions as a parenthesized tuple, for example:
+
+```
+except (RuntimeError, TypeError, NameError):
+...     pass
+```
+
+When an exception occurs, it may have associated values, also known as the exception’s arguments. The presence and types of the arguments depend on the exception type.
+
+The except clause may specify a variable after the exception name. The variable is bound to the exception instance which typically has an args attribute that stores the arguments. For convenience, builtin exception types define \_\_str\_\_() to print all the arguments without explicitly accessing .args.
+
+```
+>>> try:
+...     raise Exception('spam', 'eggs')
+... except Exception as inst:
+...     print(type(inst))    # the exception type
+...     print(inst.args)     # arguments stored in .args
+...     print(inst)          # __str__ allows args to be printed directly,
+...                          # but may be overridden in exception subclasses
+...     x, y = inst.args     # unpack args
+...     print('x =', x)
+...     print('y =', y)
+... 
+<class 'Exception'>
+('spam', 'eggs')
+('spam', 'eggs')
+x = spam
+y = eggs
+```
+
+[BaseException](https://docs.python.org/3/library/exceptions.html#BaseException) is the common base class of all exceptions. One of its subclasses, [Exception](https://docs.python.org/3/library/exceptions.html#Exception), is the base class of all the non-fatal exceptions. Exceptions which are not subclasses of Exception are not typically handled, because they are used to indicate that the program should terminate. They include [SystemExit](https://docs.python.org/3/library/exceptions.html#SystemExit) which is raised by [sys.exit()](https://docs.python.org/3/library/sys.html#sys.exit) and [KeyboardInterrupt](https://docs.python.org/3/library/exceptions.html#KeyboardInterrupt) which is raised when a user wishes to interrupt the program.
+
+Exception can be used as a wildcard that catches (almost) everything. However, it is good practice to be as specific as possible with the types of exceptions that we intend to handle, and to allow any unexpected exceptions to propagate on.
+
+```
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error:", err)
+except ValueError:
+    print("Could not convert data to an integer.")
+except Exception as err:
+    print(f"Unexpected {err=}, {type(err)=}")
+    raise
+```
+
+The try … except statement has an optional else clause, which, when present, must follow all except clauses. It is useful for code that must be executed if the try clause does not raise an exception. For example:
+
+```
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except OSError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+```
+
+The use of the else clause is better than adding additional code to the try clause because it avoids accidentally catching an exception that wasn’t raised by the code being protected by the try … except statement.
+
+Exception handlers do not handle only exceptions that occur immediately in the try clause, but also those that occur inside functions that are called (even indirectly) in the try clause. For example:
+
+```
+>>> def this_fails():
+...     x = 1/0
+...
+>>> try:
+...     this_fails()
+... except ZeroDivisionError as err:
+...     print('Handling run-time error:', err)
+... 
+Handling run-time error: division by zero
+```
