@@ -2756,3 +2756,26 @@ print("e.name", e.name)  # unique to e
 ```
 
 As discussed in [A Word About Names and Objects](https://docs.python.org/3/tutorial/classes.html#tut-object), shared data can have possibly surprising effects with involving mutable objects such as lists and dictionaries. For example, the tricks list in the following code should not be used as a class variable because just a single list would be shared by all Dog instances:
+
+```
+class Dog:
+    tricks = []  # mistaken use of a class variable
+
+    def __init__(self, name):
+        self.name = name  # instance variable unique to each instance
+
+    def add_trick(self, trick):
+        self.tricks.append(trick)
+
+
+d = Dog("Fido")
+e = Dog("Buddy")
+d.add_trick("roll over")
+e.add_trick("play dead")
+
+print("d.tricks", d.tricks)  # unexpectedly shared by all dogs
+# d.tricks ['roll over', 'play dead']
+```
+
+
+
