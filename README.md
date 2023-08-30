@@ -2952,3 +2952,28 @@ The above example would work even if MappingSubclass were to introduce a __updat
 Note that the mangling rules are designed mostly to avoid accidents; it still is possible to access or modify a variable that is considered private. This can even be useful in special circumstances, such as in the debugger.
 
 Notice that code passed to exec() or eval() does not consider the classname of the invoking class to be the current class; this is similar to the effect of the global statement, the effect of which is likewise restricted to code that is byte-compiled together. The same restriction applies to getattr(), setattr() and delattr(), as well as when referencing \_\_dict\_\_ directly.
+
+### 9.7. Odds and Ends
+
+Sometimes it is useful to have a data type similar to the Pascal “record” or C “struct”, bundling together a few named data items. The idiomatic approach is to use [dataclasses](https://docs.python.org/3/library/dataclasses.html#module-dataclasses) for this purpose:
+
+```
+>>> from dataclasses import dataclass
+>>> 
+>>> @dataclass
+... class Employee:
+...     name: str
+...     dept: str
+...     salary: int
+... 
+>>> john = Employee('john', 'computer lab', 1000)
+>>> john.dept
+'computer lab'
+>>> john = Employee('john', 'computer lab', 1000)
+>>> john.dept
+'computer lab'
+```
+
+A piece of Python code that expects a particular abstract data type can often be passed a class that emulates the methods of that data type instead. For instance, if you have a function that formats some data from a file object, you can define a class with methods [read()](https://docs.python.org/3/library/io.html#io.TextIOBase.read) and [readline()](https://docs.python.org/3/library/io.html#io.TextIOBase.readline) that get the data from a string buffer instead, and pass it as an argument.
+
+Instance method objects have attributes, too: m.\_\_self\_\_ is the instance object with the method m(), and m.\_\_func\_\_ is the function object corresponding to the method.
