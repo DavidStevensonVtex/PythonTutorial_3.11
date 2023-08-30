@@ -2729,3 +2729,30 @@ What exactly happens when a method is called? You may have noticed that x.f() wa
 Actually, you may have guessed the answer: the special thing about methods is that the instance object is passed as the first argument of the function. In our example, the call x.f() is exactly equivalent to MyClass.f(x). In general, calling a method with a list of n arguments is equivalent to calling the corresponding function with an argument list that is created by inserting the method’s instance object before the first argument.
 
 If you still don’t understand how methods work, a look at the implementation can perhaps clarify matters. When a non-data attribute of an instance is referenced, the instance’s class is searched. If the name denotes a valid class attribute that is a function object, a method object is created by packing (pointers to) the instance object and the function object just found together in an abstract object: this is the method object. When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
+
+#### 9.3.5. Class and Instance Variables
+
+Generally speaking, instance variables are for data unique to each instance and class variables are for attributes and methods shared by all instances of the class:
+
+```
+class Dog:
+    kind = "canine"  # class variable shared by all instances
+
+    def __init__(self, name):
+        self.name = name  # instance variable unique to each instance
+
+
+d = Dog("Fido")
+e = Dog("Buddy")
+print("d.kind", d.kind)  # shared by all dogs
+print("e.kind", e.kind)  # shared by all dogs
+print("d.name", d.name)  # unique to d
+print("e.name", e.name)  # unique to e
+
+# d.kind canine
+# e.kind canine
+# d.name Fido
+# e.name Buddy
+```
+
+As discussed in [A Word About Names and Objects](https://docs.python.org/3/tutorial/classes.html#tut-object), shared data can have possibly surprising effects with involving mutable objects such as lists and dictionaries. For example, the tricks list in the following code should not be used as a class variable because just a single list would be shared by all Dog instances:
