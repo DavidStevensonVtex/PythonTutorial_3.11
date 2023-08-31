@@ -3140,11 +3140,18 @@ shutil.copyfile('data.db', 'archive.db')
 shutil.move('/build/executables', 'installdir')
 ```
 
+### 10.2. File Wildcards
 
+The [glob](https://docs.python.org/3/library/glob.html#module-glob) module provides a function for making file lists from directory wildcard searches:
 
-
+```
+import glob
+glob.glob('*.py')
+```
 
 
 ### [os](https://docs.python.org/3/library/os.html#module-os) module
+
+### [glob](https://docs.python.org/3/library/glob.html#module-glob) module
 
 ### [shutil](https://docs.python.org/3/library/shutil.html#module-shutil) module
