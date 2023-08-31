@@ -2977,3 +2977,86 @@ Sometimes it is useful to have a data type similar to the Pascal “record” or
 A piece of Python code that expects a particular abstract data type can often be passed a class that emulates the methods of that data type instead. For instance, if you have a function that formats some data from a file object, you can define a class with methods [read()](https://docs.python.org/3/library/io.html#io.TextIOBase.read) and [readline()](https://docs.python.org/3/library/io.html#io.TextIOBase.readline) that get the data from a string buffer instead, and pass it as an argument.
 
 Instance method objects have attributes, too: m.\_\_self\_\_ is the instance object with the method m(), and m.\_\_func\_\_ is the function object corresponding to the method.
+
+### 9.8. Iterators
+
+By now you have probably noticed that most container objects can be looped over using a for statement:
+
+```
+for element in [1, 2, 3]:
+    print(element)
+for element in (1, 2, 3):
+    print(element)
+for key in {"one": 1, "two": 2}:
+    print(key)
+for char in "123":
+    print(char)
+for line in open("myfile.txt"):
+    print(line, end="")
+
+# 1
+# 2
+# 3
+# 1
+# 2
+# 3
+# one
+# two
+# 1
+# 2
+# 3
+# The rain in Spain falls mainly in the plain.
+# As they say in Finland, there's more than one way to roast a reindeer.
+# You can see a lot just by looking.
+```
+
+This style of access is clear, concise, and convenient. The use of iterators pervades and unifies Python. Behind the scenes, the for statement calls [iter()](https://docs.python.org/3/library/functions.html#iter) on the container object. The function returns an iterator object that defines the method [\_\_next\_\_()](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) which accesses elements in the container one at a time. When there are no more elements, [\_\_next\_\_()](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) raises a [StopIteration](https://docs.python.org/3/library/exceptions.html#StopIteration) exception which tells the for loop to terminate. You can call the [\_\_next\_\_()](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) method using the next() built-in function; this example shows how it all works:
+
+```
+>>> s = 'abc'
+>>> it = iter(s)
+>>> it
+<str_ascii_iterator object at 0x00000249D08877F0>
+>>> next(it)
+'a'
+>>> next(it)
+'b'
+>>> next(it)
+'c'
+>>> next(it)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+Having seen the mechanics behind the iterator protocol, it is easy to add iterator behavior to your classes. Define an [\_\_iter\_\_()](https://docs.python.org/3/library/stdtypes.html#container.__iter__) method which returns an object with a [\_\_next\_\_()](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) method. If the class defines [\_\_next\_\_()](https://docs.python.org/3/library/stdtypes.html#iterator.__next__), then __iter__() can just return self:
+
+```
+class Reverse:
+    """Iterator for looping over a sequence backwards."""
+
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]
+
+
+rev = Reverse("spam")
+print("iter(rev)", iter(rev))
+for char in rev:
+    print(char)
+
+# iter(rev) <__main__.Reverse object at 0x0000026B62773B10>
+# m
+# a
+# p
+# s
+```
