@@ -3106,3 +3106,45 @@ data = 'golf'
 list(data[i] for i in range(len(data)-1, -1, -1))
 ['f', 'l', 'o', 'g']
 ```
+
+## 10. Brief Tour of the Standard Library
+
+### 10.1. Operating System Interface
+
+The [os](https://docs.python.org/3/library/os.html#module-os) module provides dozens of functions for interacting with the operating system:
+
+```
+>>> import os
+>>> os.getcwd()             # Return the current working directory
+'D:\\drs\\Python\\PythonTutorial_3.11\\010_BriefTourOfTheStandardLibrary'
+>>> os.chdir('D:\\drs\\Python\\PythonTutorial_3.11\\010_BriefTourOfTheStandardLibrary')   # Change current working directory
+>>> os.system('mkdir today')   # Run the command mkdir in the system shell
+0
+```
+
+Be sure to use the import os style instead of from os import *. This will keep os.open() from shadowing the built-in open() function which operates much differently.
+
+The built-in dir() and help() functions are useful as interactive aids for working with large modules like os:
+
+```
+import os
+dir(os)
+help(os)
+```
+
+For daily file and directory management tasks, the shutil module provides a higher level interface that is easier to use:
+
+```
+import shutil
+shutil.copyfile('data.db', 'archive.db')
+shutil.move('/build/executables', 'installdir')
+```
+
+
+
+
+
+
+### [os](https://docs.python.org/3/library/os.html#module-os) module
+
+### [shutil](https://docs.python.org/3/library/shutil.html#module-shutil) module
