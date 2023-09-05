@@ -3279,6 +3279,26 @@ Beware the Ides of March.
 
 (Note that the second example needs a mailserver running on localhost.)
 
+### 10.8. Dates and Times
+
+The [datetime](https://docs.python.org/3/library/datetime.html#module-datetime) module supplies classes for manipulating dates and times in both simple and complex ways. While date and time arithmetic is supported, the focus of the implementation is on efficient member extraction for output formatting and manipulation. The module also supports objects that are timezone aware.
+
+```
+>>> # dates are easily constructed and formatted
+>>> from datetime import date
+>>> now = date.today()
+>>> now
+datetime.date(2023, 9, 5)
+>>> now.strftime("%m-%d-%y. %d %b %Y is a %A on the %d day of %B.")
+'09-05-23. 05 Sep 2023 is a Tuesday on the 05 day of September.'
+>>>
+>>> # dates support calendar arithmetic
+>>> birthday = date(1964, 7, 31)
+>>> age = now - birthday
+>>> age.days
+21585
+```
+
 
 ### [os](https://docs.python.org/3/library/os.html#module-os) module
 
