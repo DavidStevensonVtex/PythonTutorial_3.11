@@ -3210,6 +3210,76 @@ When only simple capabilities are needed, string methods are preferred because t
 'tea for two'
 ```
 
+### 10.6. Mathematics
+
+The [math](https://docs.python.org/3/library/math.html#module-math) module gives access to the underlying C library functions for floating point math:
+
+```
+>>> import math
+>>> math.cos(math.pi / 4)
+0.7071067811865476
+>>> math.log(1024, 2)
+10.0
+```
+
+The [random](https://docs.python.org/3/library/random.html#module-random) module provides tools for making random selections:
+
+<pre>
+>>> import random
+>>> random.choice(['apple', 'pear', 'banana'])
+'apple'
+>>> random.sample(range(100), 10)   # sampling without replacement
+[87, 76, 51, 30, 11, 75, 68, 96, 46, 37]
+>>> random.random()                 # random float
+0.6042513502100706
+>>> random.randrange(6)             # random integer chosen from range(6)
+5
+</pre>
+
+The [statistics](https://docs.python.org/3/library/statistics.html#module-statistics) module calculates basic statistical properties (the mean, median, variance, etc.) of numeric data:
+
+```
+>>> import statistics
+>>> data = [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5]
+>>> statistics.mean(data)
+1.6071428571428572
+>>> statistics.median(data)
+1.25
+>>> statistics.variance(data)
+1.3720238095238095
+```
+
+The SciPy project <https://scipy.org> has many other modules for numerical computations.
+
+### 10.7. Internet Access
+
+There are a number of modules for accessing the internet and processing internet protocols. 
+Two of the simplest are [urllib.request](https://docs.python.org/3/library/urllib.request.html#module-urllib.request) 
+for retrieving data from URLs and smtplib for sending mail:
+
+```
+from urllib.request import urlopen
+with urlopen('http://worldtimeapi.org/api/timezone/etc/UTC.txt') as response:
+    for line in response:
+        line = line.decode()             # Convert bytes to a str
+        if line.startswith('datetime'):
+            print(line.rstrip())         # Remove trailing newline
+```
+
+```
+import smtplib
+server = smtplib.SMTP('localhost')
+server.sendmail('soothsayer@example.org', 'jcaesar@example.org',
+"""To: jcaesar@example.org
+From: soothsayer@example.org
+
+Beware the Ides of March.
+""")
+```
+
+(Note that the second example needs a mailserver running on localhost.)
+
+
 ### [os](https://docs.python.org/3/library/os.html#module-os) module
 
 ### [argparse](https://docs.python.org/3/library/argparse.html#module-argparse) module
