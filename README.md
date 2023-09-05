@@ -3299,6 +3299,30 @@ datetime.date(2023, 9, 5)
 21585
 ```
 
+### 10.9. Data Compression
+Common data archiving and compression formats are directly supported by modules including: 
+
+* [zlib](https://docs.python.org/3/library/zlib.html#module-zlib)
+* [gzip](https://docs.python.org/3/library/gzip.html#module-gzip)
+* [bz2](https://docs.python.org/3/library/bz2.html#module-bz2)
+* [lzma](https://docs.python.org/3/library/lzma.html#module-lzma)
+* [zipfile](https://docs.python.org/3/library/zipfile.html#module-zipfile)
+* [tarfile](https://docs.python.org/3/library/tarfile.html#module-tarfile)
+
+```
+>>> import zlib
+>>> s = b'witch which has which witches wrist watch'
+>>> len(s)
+41
+>>> t = zlib.compress(s)
+>>> len(t)
+37
+>>> zlib.decompress(t)
+b'witch which has which witches wrist watch'
+>>> zlib.crc32(s)
+226805979
+```
+
 
 ### [os](https://docs.python.org/3/library/os.html#module-os) module
 
