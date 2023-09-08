@@ -3632,6 +3632,18 @@ In addition to alternative list implementations, the library also offers other t
 
 The heapq module provides functions for implementing heaps based on regular lists. The lowest valued entry is always kept at position zero. This is useful for applications which repeatedly access the smallest element but do not want to run a full list sort:
 
+### 11.8. Decimal Floating Point Arithmetic
+
+The [decimal](https://docs.python.org/3/library/decimal.html#module-decimal) module offers a [Decimal](https://docs.python.org/3/library/decimal.html#decimal.Decimal) datatype for decimal floating point arithmetic. Compared to the built-in float implementation of binary floating point, the class is especially helpful for
+
+* financial applications and other uses which require exact decimal representation,
+* control over precision,
+* control over rounding to meet legal or regulatory requirements,
+* tracking of significant decimal places, or
+* applications where the user expects the results to match calculations done by hand.
+
+
+
 
 
 
